@@ -8,6 +8,7 @@ import com.lgw.github.util.ScanUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author lianguowei <lianguowei>
@@ -36,6 +37,8 @@ public class Main {
                 , "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/xxx-ad-brand-platform-api/src/main/java/com/xxx/ad/brand/platform/controller/AdBrandUnitController.java"
                 , "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/xxx-ad-brand-platform-api/src/main/java/com/xxx/ad/brand/platform/controller/AppController.java"
         );
+        // 扫描的类文件去重
+        scanPathList = scanPathList.stream().distinct().collect(Collectors.toList());
 
         // 开始执行前删除原有的excel文件
         FileUtil.deleteFile(outFilePath, excelFileName);
