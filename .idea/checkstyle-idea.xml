@@ -3,6 +3,7 @@
   <component name="CheckStyle-IDEA" serialisationVersion="2">
     <checkstyleVersion>10.17.0</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
+    <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
       <option value="5d29703c-ec22-4dfd-8cbf-45d190ef20b3" />
     </option>
@@ -10,7 +11,7 @@
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
-        <ConfigurationLocation id="5d29703c-ec22-4dfd-8cbf-45d190ef20b3" type="PROJECT_RELATIVE" scope="All" description="kuaishou check">$USER_HOME$/Documents/soft/ideaProject/kuaishou-build-tools/src/main/resources/kuaishou-checkstyle-idea.xml</ConfigurationLocation>
+        <ConfigurationLocation id="5d29703c-ec22-4dfd-8cbf-45d190ef20b3" type="PROJECT_RELATIVE" scope="All" description="kuaishou check">$PROJECT_DIR$/../kuaishou-build-tools/src/main/resources/kuaishou-checkstyle-idea.xml</ConfigurationLocation>
       </list>
     </option>
   </component>

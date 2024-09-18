@@ -9,6 +9,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="class-dependency-analysis-local" />
+        <module name="class-dependency-analysis-spring" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="class-dependency-analysis" options="" />
       <module name="class-dependency-analysis-local" options="" />
+      <module name="class-dependency-analysis-spring" options="" />
     </option>
   </component>
 </project>
