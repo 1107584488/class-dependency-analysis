@@ -10,6 +10,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="class-dependency-analysis-local" />
         <module name="class-dependency-analysis-spring" />
+        <module name="module-dependency-analysis-local" />
       </profile>
     </annotationProcessing>
   </component>
@@ -19,6 +20,7 @@
       <module name="class-dependency-analysis" options="" />
       <module name="class-dependency-analysis-local" options="" />
       <module name="class-dependency-analysis-spring" options="" />
+      <module name="module-dependency-analysis-local" options="" />
     </option>
   </component>
 </project>

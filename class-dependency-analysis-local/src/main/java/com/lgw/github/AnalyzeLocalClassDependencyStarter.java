@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * @author lianguowei <lianguowei>
  * Created on 2024-09-03
  */
-public class AnalyzeClassDependencyStarter {
+public class AnalyzeLocalClassDependencyStarter {
     public static void main(String[] args) {
         // 键入信息
         // 本地excel输出路径
