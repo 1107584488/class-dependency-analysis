@@ -23,7 +23,7 @@ public class ScanUtil {
      * 开始扫描类文件内容，按行读取
      * 并在扫描前进行前置处理：清空单个文件的本地临时缓存
      *
-     * @param filePath      待扫描的文帝java文件的全路径
+     * @param filePath      待扫描的java文件的全路径
      * @param moduleRule    域命名规范前缀
      */
     public static void scanAndWriteExcel(String filePath, String moduleRule) {
