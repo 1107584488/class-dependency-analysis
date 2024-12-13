@@ -1,15 +1,16 @@
 package com.lgw.github.util;
 
-import com.lgw.github.constant.Constants;
-import com.lgw.github.constant.Variable;
-
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.lgw.github.constant.Constants;
+import com.lgw.github.constant.Variable;
 
 /**
  * 扫描工具类
@@ -20,19 +21,85 @@ import java.util.Map;
 public class ScanUtil {
 
     /**
+     * 嵌套扫描所依赖模块的所有类名和类路径
+     * @param dependencyModuleMap
+     */
+    public static void scanDependencyModuleClassPath(Map<String, String> dependencyModuleMap) {
+        for (Map.Entry<String, String> entry : dependencyModuleMap.entrySet()) {
+            String moduleName = entry.getKey();
+            String modulePath = entry.getValue();
+            Map<String, String> fileNamePathMap = getScanFolderClassName(modulePath);
+            if (!fileNamePathMap.isEmpty()) {
+                for (Map.Entry<String, String> fileNamePathMapEntry : fileNamePathMap.entrySet()) {
+                    String fileName = fileNamePathMapEntry.getKey();
+                    String filePath = fileNamePathMapEntry.getValue();
+                    scanAndWriteExcel(filePath, moduleName, fileName, 1);
+                }
+            }
+        }
+    }
+
+    /**
+     * 文件夹嵌套扫描，会查找子文件夹下的文件或文件夹
+     *
+     * @param pathName  本地待扫描的类文件路径
+     * @return
+     */
+    public static Map<String, String> getScanFolderClassName(String pathName) {
+        File folder = new File(pathName);
+        Map<String, String> fileNamePathMap = new HashMap();
+        scanFolder(folder, fileNamePathMap);
+        return fileNamePathMap;
+    }
+
+    /**
+     * 单个文件或文件夹的扫描处理
+     *
+     * @param folder
+     * @param fileNamePathMap
+     */
+    public static void scanFolder(File folder, Map<String, String> fileNamePathMap) {
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return;
+        }
+        for (File file : files) {
+            if (file.isDirectory()) {
+                scanFolder(file, fileNamePathMap);
+            } else {
+                if (file.getName().endsWith(".java")) {
+                    String fileName = file.getName().replace(".java", "");
+                    String filePath = file.getPath();
+                    fileNamePathMap.put(fileName, filePath);
+                }
+            }
+        }
+    }
+
+    /**
      * 开始扫描类文件内容，按行读取
      * 并在扫描前进行前置处理：清空单个文件的本地临时缓存
      *
      * @param filePath      待扫描的java文件的全路径
-     * @param moduleRule    域命名规范前缀
+     * @param moduleName    模块名
+     * @param className     类名
+     * @param type          扫描类型，1 - 扫描package，获取当前类的全路径：com.xxx.java，用于扫描被依赖模块的类和路径   2 - 扫描文件全文上下文
      */
-    public static void scanAndWriteExcel(String filePath, String moduleRule) {
+    public static void scanAndWriteExcel(String filePath, String moduleName, String className, int type) {
         // 扫描前置处理：可复用的临时存储的扫描内容，每次文件扫描前需清空
         ClearUtil.scanFilePreHandle();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                processLine(line.trim(), moduleRule);
+            if (type == 1) {
+                // 读取被依赖模块的全路径，通过首行 package 后的路径 + 类名拼接
+                String line = reader.readLine();
+                if (line.startsWith("package ")) {
+                    handlePackageLine(line, moduleName, className);
+                }
+            } else if (type == 2) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    processLine(line.trim());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,15 +108,14 @@ public class ScanUtil {
 
     /**
      * 行数据处理
-     * 1、先扫描import的类（类名、类路径）
+     * 1、扫描import的类（类名、类路径）
      * 2、扫描bean注入（步骤一的类名、beanName）
      * 3、根据步骤二的beanName扫描下文中调用的方法
      *
      * @param line          读取的行数据
-     * @param moduleRule    域命名规范前缀
      */
-    private static void processLine(String line, String moduleRule) {
-        if (line.startsWith("import " + moduleRule)) {
+    private static void processLine(String line) {
+        if(line.startsWith("import ")) {
             handleImportLine(line);
         } else if (line.startsWith("@Autowired") || line.startsWith("@Resource") || line.startsWith("@Qualifier")) {
             Variable.flag = true;
@@ -62,6 +128,13 @@ public class ScanUtil {
         Variable.flag = false;
     }
 
+    private static void handlePackageLine(String line, String moduleName, String className) {
+        String classPath = line.replace("package", "").replaceAll("\\s+", "").replace(";", "");
+        String classPathName = classPath + "." + className;
+        Constants.MODULE_CLASS_PATH_NAME_LIST.add(classPathName);
+        Constants.MODULE_CLASS_PATH_NAME_MAP.put(classPathName, moduleName);
+    }
+
     /**
      * 处理引用
      * 1、筛选处理 com.kuaishou.ad.brand.platform. 开头的import
@@ -72,12 +145,13 @@ public class ScanUtil {
      */
     private static void handleImportLine(String line) {
         String classPath = line.replace("import ", "").replace(";", "");
-        String[] split = classPath.replace("com.kuaishou.ad.brand.platform.", "").split("\\.");
-        String moduleName = split[0];
-        String className = split[split.length - 1];
-
-        Constants.MODULE_CLASS_MAP.computeIfAbsent(moduleName, k -> new HashMap<>())
-                .put(className, classPath);
+        if (Constants.MODULE_CLASS_PATH_NAME_LIST.contains(classPath)) {
+            String moduleName = Constants.MODULE_CLASS_PATH_NAME_MAP.get(classPath);
+            String[] split = classPath.split("\\.");
+            String className = split[split.length - 1];
+            Constants.MODULE_CLASS_MAP.computeIfAbsent(moduleName, k -> new HashMap<>())
+                    .put(className, classPath);
+        }
     }
 
     /**

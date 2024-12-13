@@ -1,5 +1,6 @@
 package com.lgw.github.constant;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,16 @@ import java.util.Map;
  * Created on 2024-09-03
  */
 public class Constants {
+
+    /**
+     * 全部模块中的类全路径，包含类名，例如：com.kuaishou.ad.brand.platform.common.constant.CallContext
+     */
+    public static final List<String> MODULE_CLASS_PATH_NAME_LIST = new ArrayList<>();
+
+    /**
+     * 类路径 -> 模块名
+     */
+    public static final Map<String, String> MODULE_CLASS_PATH_NAME_MAP = new HashMap<>();
 
     /**
      * 类模块映射：key：moduleName（import第六级），value：Map<类名，类路径>
