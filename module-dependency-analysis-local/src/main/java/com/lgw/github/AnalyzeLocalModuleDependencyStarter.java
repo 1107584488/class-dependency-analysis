@@ -28,12 +28,12 @@ public class AnalyzeLocalModuleDependencyStarter {
         // key - 模块名
         // value - 扫描的起始包路径
         Map<String, String> dependencyModuleMap = new LinkedHashMap<>() {{
-            put("Order", "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-order-sdk");
-            put("Account", "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-account-sdk");
-            put("Resource", "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-resource-sdk");
-            put("Common", "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-common-sdk");
-            put("Settle", "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-settle-sdk");
-            put("Share", "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-share-sdk");
+            put("Order", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-order-sdk");
+            put("Account", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-account-sdk");
+            put("Resource", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-resource-sdk");
+            put("Common", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-common-sdk");
+            put("Settle", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-settle-sdk");
+            put("Share", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-share-sdk");
         }};
         // 扫描出当前模块下的所有类路径
         scanDependencyModuleClassPath(dependencyModuleMap);
@@ -41,7 +41,7 @@ public class AnalyzeLocalModuleDependencyStarter {
 
         // 步骤2:输入待扫描的模块和路径（即需要分析的模块），自动化嵌套扫描类全路径
         String scanModuleName = "CreativeComponent";
-        String modulePath = "/Users/lianguowei/Documents/soft/ideaProject/kuaishou-ad-brand-platform/ad-brand-creative-component";
+        String modulePath = "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-creative-component";
         Map<String, String> fileNamePathMap = getScanFolderClassName(modulePath);
         if (!fileNamePathMap.isEmpty()) {
             for (Map.Entry<String, String> fileNamePathMapEntry : fileNamePathMap.entrySet()) {
