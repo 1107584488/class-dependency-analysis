@@ -20,28 +20,28 @@ public class AnalyzeLocalModuleDependencyStarter {
     public static void main(String[] args) {
         // 键入信息
         // 本地excel输出路径
-        String outFilePath = "/Users/lianguowei/Documents/草稿";
+        String outFilePath = "/Users/lianguowei/Documents/草稿/依赖扫描";
         // 本地excel文件名，不带.xlsx后缀，sheet仅一列，同名
-        String excelFileName = "CreativeComponent";
+        String excelFileName = "ShareSDK";
 
         // 步骤1:输入待扫描的模块和路径（即需要扫描的被依赖的模块），自动化嵌套扫描类全路径
         // key - 模块名
         // value - 扫描的起始包路径
         Map<String, String> dependencyModuleMap = new LinkedHashMap<>() {{
-            put("Order", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-order-sdk");
-            put("Account", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-account-sdk");
-            put("Resource", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-resource-sdk");
-            put("Common", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-common-sdk");
-            put("Settle", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-settle-sdk");
-            put("Share", "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-share-sdk");
+            put("Settle", "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-settle-sdk");
+            put("Common", "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-common-sdk");
+            put("Order", "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-order-sdk");
+            put("Account", "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-account-sdk");
+            put("Resource", "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-resource-sdk");
+            put("Creative", "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-creative-sdk");
         }};
         // 扫描出当前模块下的所有类路径
         scanDependencyModuleClassPath(dependencyModuleMap);
 
 
         // 步骤2:输入待扫描的模块和路径（即需要分析的模块），自动化嵌套扫描类全路径
-        String scanModuleName = "CreativeComponent";
-        String modulePath = "/Users/lianguowei/Documents/soft/ideaProject/xxx-ad-brand-platform/ad-brand-creative-component";
+        String scanModuleName = "ShareSDK";
+        String modulePath = "/Users/lianguowei/Documents/soft/ideaProject/依赖分析/xxx-ad-brand-platform/ad-brand-share-sdk";
         Map<String, String> fileNamePathMap = getScanFolderClassName(modulePath);
         if (!fileNamePathMap.isEmpty()) {
             for (Map.Entry<String, String> fileNamePathMapEntry : fileNamePathMap.entrySet()) {
@@ -55,8 +55,6 @@ public class AnalyzeLocalModuleDependencyStarter {
                 PrintUtil.printSingleFileContent();
                 // 数据写入excel
                 ExcelUtil.writeExcelForDependency(outFilePath, excelFileName);
-                // 行号+1，为了直观将扫描类之间空出一行
-                Variable.currentRow++;
             }
         }
     }

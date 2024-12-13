@@ -108,6 +108,8 @@ public class ExcelUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // 行号+1，为了直观将扫描类之间空出一行
+        Variable.currentRow++;
     }
 
     /**
