@@ -12,6 +12,7 @@
         <module>class-dependency-analysis-local</module>
         <module>class-dependency-analysis-spring</module>
         <module>module-dependency-analysis-local</module>
+        <module>module-diff-analysis-local</module>
     </modules>
 
     <properties>

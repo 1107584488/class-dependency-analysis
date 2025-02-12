@@ -1,0 +1,86 @@
+package com.lgw.github.constant;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 常量工具类
+ *
+ * @author lianguowei <lianguowei>
+ * Created on 2024-09-03
+ */
+public class Constants {
+
+    /**
+     * 全部模块中的类全路径，包含类名，例如：com.kuaishou.ad.brand.platform.common.constant.CallContext
+     */
+    public static final List<String> MODULE_CLASS_PATH_NAME_LIST = new ArrayList<>();
+
+    /**
+     * 类路径 -> 模块名
+     */
+    public static final Map<String, String> MODULE_CLASS_PATH_NAME_MAP = new HashMap<>();
+
+    /**
+     * 类模块映射：key：moduleName（import第六级），value：Map<类名，类路径>
+     */
+    public static final Map<String, HashMap<String, String>> MODULE_CLASS_MAP = new HashMap<>();
+
+    /**
+     * 类与bean映射关系，key：类名，value：beanName
+     */
+    public static final Map<String, String> CLASS_MAP = new HashMap<>();
+
+    /**
+     * bean与方法映射，key：beanName，value：调用的方法集合（已去重）
+     */
+    public static final Map<String, List<String>> METHOD_MAP = new HashMap<>();
+
+    /**
+     * 标题行名称
+     */
+    public static final List<String> TITLE_LIST = Arrays.asList("扫描类", "依赖模块", "依赖类名", "调用方法", "依赖类路径");
+
+    /**
+     * 表格没有自适应宽度，获取每列最长宽度+2，表格写入末尾设置列宽
+     */
+    public static final int[] COLUMN_WIDTHS = new int[TITLE_LIST.size()];
+
+    /**
+     * 标杆类文件信息（泛指master）
+     */
+    public static final Map<String, String> MASTER_CLASS_MAP = new HashMap<>();
+
+    /**
+     * 标杆类文件信息（master类名 -> 类路径映射关系）
+     */
+    public static final Map<String, String> MASTER_CLASS_PATH_MAP = new HashMap<>();
+
+    /**
+     * 标杆类独有的文件信息（master类名 -> 类路径映射关系）
+     */
+    public static Map<String, String> ONLY_MASTER_CLASS_PATH_MAP = new HashMap<>();
+
+    /**
+     * 目标类文件信息（通常指二期分支）
+     */
+    public static final Map<String, String> TARGET_CLASS_MAP = new HashMap<>();
+
+    /**
+     * 目标类文件信息（target 类名 -> 类路径映射关系）
+     */
+    public static final Map<String, String> TARGET_CLASS_PATH_MAP = new HashMap<>();
+
+    /**
+     * 目标类独有的文件信息（target类名 -> 类路径映射关系）
+     */
+    public static Map<String, String> ONLY_TARGET_CLASS_PATH_MAP = new HashMap<>();
+
+    /**
+     * 目标类文件与目标类文件存在差异的类文件信息
+     */
+    public static final Map<String, String> MASTER_TARGET_CLASS_DIFF_MAP = new HashMap<>();
+}
